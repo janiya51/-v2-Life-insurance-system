@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Life Insurance System</title>
+    <!-- Bootstrap CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <!-- Favicon -->
+    <link rel="icon" href="https://i.ibb.co/9vRXR1J/favicon-32x32.png" type="image/x-icon">
+</head>
+<body>
+
+<div class="auth-container">
+    <div class="auth-card">
+        <h2 class="auth-title">
+            <i class="fas fa-user-plus" style="color: var(--primary-accent-color);"></i>
+            Create Customer Account
+        </h2>
+
+        <!-- Error Message -->
+        <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+            [[${errorMessage}]]
+        </div>
+
+        <form th:action="@{/register}" th:object="${userDto}" method="post">
+            <div class="mb-3">
+                <label for="fullName" class="form-label">Full Name</label>
+                <input type="text" class="form-control" id="fullName" th:field="*{fullName}" required>
+            </div>
+            <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" class="form-control" id="username" th:field="*{username}" required>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" th:field="*{email}" required>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password" th:field="*{password}" required>
+            </div>
+             <div class="mb-3">
+                <label for="phone" class="form-label">Phone</label>
+                <input type="text" class="form-control" id="phone" th:field="*{phone}">
+            </div>
+            <div class="mb-3">
+                <label for="address" class="form-label">Address</label>
+                <textarea class="form-control" id="address" th:field="*{address}" rows="2"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary w-100 mt-2">Register</button>
+        </form>
+
+        <div class="text-center mt-4">
+             <p class="mb-0" style="color: var(--secondary-text-color);">Already have an account?</p>
+            <a th:href="@{/login}">Login here</a>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/header :: header-links(pageTitle=${user.userId == 0 ? 'Create User' : 'Edit User'})}"></head>
+<body>
+
+<div class="d-flex">
+    <!-- Sidebar -->
+    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+    <!-- Main Content -->
+    <div class="main-content flex-grow-1">
+        <div class="container-fluid">
+
+            <div class="mb-4" data-aos="fade-down">
+                <h1 class="h3 mb-0" th:text="${user.userId == 0 ? 'Create New Staff User' : 'Edit User'}"></h1>
+                <p class="text-muted">Fill in the details below to manage the user account.</p>
+            </div>
+
+            <div class="card" data-aos="fade-up">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">User Details</h5>
+                </div>
+                <div class="card-body">
+                    <form th:action="@{/admin/users/save}" th:object="${user}" method="post">
+                        <input type="hidden" th:field="*{userId}" />
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="fullName" class="form-label">Full Name</label>
+                                <input type="text" class="form-control" id="fullName" th:field="*{fullName}" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="username" class="form-label">Username</label>
+                                <input type="text" class="form-control" id="username" th:field="*{username}" required>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" th:field="*{email}" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="password" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="password" th:field="*{password}" th:required="${user.userId == 0}" placeholder="Required for new users">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="phone" class="form-label">Phone</label>
+                                <input type="text" class="form-control" id="phone" th:field="*{phone}">
+                            </div>
+                             <div class="col-md-6 mb-3">
+                                <label for="role" class="form-label">Role</label>
+                                <select class="form-select" id="role" th:field="*{role}" required>
+                                    <option value="">-- Select Role --</option>
+                                    <!-- Exclude CUSTOMER role as per business rule -->
+                                    <option th:each="roleOpt : ${roles}"
+                                            th:if="${roleOpt.name() != 'CUSTOMER'}"
+                                            th:value="${roleOpt}"
+                                            th:text="${roleOpt.name()}"></option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="address" class="form-label">Address</label>
+                            <textarea class="form-control" id="address" th:field="*{address}" rows="3"></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Save User</button>
+                        <a th:href="@{/admin/users}" class="btn btn-secondary">Cancel</a>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/footer :: footer-scripts}"></div>
+</body>
+</html>

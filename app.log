@@ -1,0 +1,111 @@
+[INFO] Scanning for projects...
+[INFO]
+[INFO] ----------< com.life_insurance_system:life-insurance-system >-----------
+[INFO] Building LifeInsuranceSystem 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO]
+[INFO] >>> spring-boot:3.2.4:run (default-cli) > test-compile @ life-insurance-system >>>
+Downloading from central: https://repo.maven.apache.org/maven2/org/thymeleaf/extras/thymeleaf-extras-springsecurity6/3.1.2.RELEASE/thymeleaf-extras-springsecurity6-3.1.2.RELEASE.pom
+Progress (1): 967 BProgress (1): 2.5 kBProgress (1): 4.9 kBProgress (1): 4.9 kB                    Downloaded from central: https://repo.maven.apache.org/maven2/org/thymeleaf/extras/thymeleaf-extras-springsecurity6/3.1.2.RELEASE/thymeleaf-extras-springsecurity6-3.1.2.RELEASE.pom (4.9 kB at 11 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/springframework/security/spring-security-bom/6.1.2/spring-security-bom-6.1.2.pom
+Progress (1): 975 BProgress (1): 5.3 kBProgress (1): 5.3 kB                    Downloaded from central: https://repo.maven.apache.org/maven2/org/springframework/security/spring-security-bom/6.1.2/spring-security-bom-6.1.2.pom (5.3 kB at 78 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/thymeleaf/extras/thymeleaf-extras-springsecurity6/3.1.2.RELEASE/thymeleaf-extras-springsecurity6-3.1.2.RELEASE.jar
+Progress (1): 0.9/47 kBProgress (1): 2.3/47 kBProgress (1): 3.6/47 kBProgress (1): 5.0/47 kBProgress (1): 6.4/47 kBProgress (1): 7.7/47 kBProgress (1): 9.1/47 kBProgress (1): 10/47 kB Progress (1): 12/47 kBProgress (1): 13/47 kBProgress (1): 15/47 kBProgress (1): 16/47 kBProgress (1): 17/47 kBProgress (1): 19/47 kBProgress (1): 20/47 kBProgress (1): 21/47 kBProgress (1): 23/47 kBProgress (1): 24/47 kBProgress (1): 25/47 kBProgress (1): 26/47 kBProgress (1): 27/47 kBProgress (1): 29/47 kBProgress (1): 30/47 kBProgress (1): 31/47 kBProgress (1): 33/47 kBProgress (1): 34/47 kBProgress (1): 36/47 kBProgress (1): 37/47 kBProgress (1): 38/47 kBProgress (1): 40/47 kBProgress (1): 41/47 kBProgress (1): 42/47 kBProgress (1): 44/47 kBProgress (1): 45/47 kBProgress (1): 47 kB                      Downloaded from central: https://repo.maven.apache.org/maven2/org/thymeleaf/extras/thymeleaf-extras-springsecurity6/3.1.2.RELEASE/thymeleaf-extras-springsecurity6-3.1.2.RELEASE.jar (47 kB at 718 kB/s)
+[INFO]
+[INFO] --- resources:3.3.1:resources (default-resources) @ life-insurance-system ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] Copying 26 resources from src/main/resources to target/classes
+[INFO]
+[INFO] --- compiler:3.11.0:compile (default-compile) @ life-insurance-system ---
+[INFO] Changes detected - recompiling the module! :source
+[INFO] Compiling 49 source files with javac [debug release 17] to target/classes
+[INFO] /app/src/main/java/com/life_insurance_system/service/SecurityConfig.java: /app/src/main/java/com/life_insurance_system/service/SecurityConfig.java uses or overrides a deprecated API.
+[INFO] /app/src/main/java/com/life_insurance_system/service/SecurityConfig.java: Recompile with -Xlint:deprecation for details.
+[INFO]
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ life-insurance-system ---
+[INFO] skip non existing resourceDirectory /app/src/test/resources
+[INFO]
+[INFO] --- compiler:3.11.0:testCompile (default-testCompile) @ life-insurance-system ---
+[INFO] No sources to compile
+[INFO]
+[INFO] <<< spring-boot:3.2.4:run (default-cli) < test-compile @ life-insurance-system <<<
+[INFO]
+[INFO]
+[INFO] --- spring-boot:3.2.4:run (default-cli) @ life-insurance-system ---
+[INFO] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.4)
+
+2025-10-01T21:15:47.572Z  INFO 35772 --- [           main] c.l.LifeInsuranceSystemApplication       : Starting LifeInsuranceSystemApplication using Java 21.0.8 with PID 35772 (/app/target/classes started by jules in /app)
+2025-10-01T21:15:47.575Z  INFO 35772 --- [           main] c.l.LifeInsuranceSystemApplication       : No active profile set, falling back to 1 default profile: "default"
+2025-10-01T21:15:48.251Z  INFO 35772 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-10-01T21:15:48.336Z  INFO 35772 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 78 ms. Found 10 JPA repository interfaces.
+2025-10-01T21:15:49.036Z  INFO 35772 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-10-01T21:15:49.049Z  INFO 35772 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-10-01T21:15:49.049Z  INFO 35772 --- [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.19]
+2025-10-01T21:15:49.098Z  INFO 35772 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-10-01T21:15:49.099Z  INFO 35772 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1479 ms
+2025-10-01T21:15:49.138Z  INFO 35772 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-10-01T21:15:49.332Z  INFO 35772 --- [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:LifeInsuranceDB user=SA
+2025-10-01T21:15:49.333Z  INFO 35772 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-10-01T21:15:49.345Z  INFO 35772 --- [           main] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:LifeInsuranceDB'
+2025-10-01T21:15:49.487Z  INFO 35772 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-10-01T21:15:49.535Z  INFO 35772 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.4.4.Final
+2025-10-01T21:15:49.565Z  INFO 35772 --- [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-10-01T21:15:49.855Z  INFO 35772 --- [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-10-01T21:15:49.900Z  WARN 35772 --- [           main] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-10-01T21:15:50.960Z  INFO 35772 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+Hibernate: drop table if exists beneficiaries cascade
+Hibernate: drop table if exists claim_documents cascade
+Hibernate: drop table if exists claims cascade
+Hibernate: drop table if exists customers cascade
+Hibernate: drop table if exists payments cascade
+Hibernate: drop table if exists policies cascade
+Hibernate: drop table if exists policy_disputes cascade
+Hibernate: drop table if exists risk_assessments cascade
+Hibernate: drop table if exists system_logs cascade
+Hibernate: drop table if exists users cascade
+Hibernate: create table beneficiaries (beneficiary_id integer generated by default as identity, policy_id integer not null, share_percentage numeric(5,2), relation varchar(100), name varchar(150) not null, contact_info varchar(200), primary key (beneficiary_id))
+Hibernate: create table claim_documents (claim_id integer not null, document_id integer generated by default as identity, uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, document_type varchar(100), file_path varchar(255), primary key (document_id))
+Hibernate: create table claims (claim_id integer generated by default as identity, customer_id integer not null, policy_id integer not null, submitted_date date not null, remarks TEXT, status ENUM('PENDING', 'APPROVED', 'REJECTED', 'UNDER_INVESTIGATION') DEFAULT 'PENDING' check (status in ('PENDING','APPROVED','REJECTED','UNDER_INVESTIGATION')), primary key (claim_id))
+Hibernate: create table customers (customer_id integer generated by default as identity, date_of_birth date, user_id integer not null unique, national_id varchar(50) unique, occupation varchar(100), primary key (customer_id))
+Hibernate: create table payments (amount numeric(12,2) not null, finance_officer_id integer, payment_date date not null, payment_id integer generated by default as identity, policy_id integer not null, payment_type varchar(255) not null check (payment_type in ('PREMIUM','BENEFIT')), status ENUM('PENDING', 'COMPLETED', 'FAILED') DEFAULT 'PENDING' check (status in ('PENDING','COMPLETED','FAILED')), primary key (payment_id))
+Hibernate: create table policies (advisor_id integer, customer_id integer not null, end_date date, policy_id integer generated by default as identity, start_date date, sum_assured numeric(12,2), policy_type varchar(100) not null, status ENUM('PENDING', 'ACTIVE', 'REJECTED', 'CANCELLED', 'EXPIRED') DEFAULT 'PENDING' check (status in ('PENDING','ACTIVE','REJECTED','CANCELLED','EXPIRED')), primary key (policy_id))
+Hibernate: create table policy_disputes (customer_id integer not null, dispute_id integer generated by default as identity, policy_id integer not null, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, description TEXT not null, status ENUM('PENDING', 'UNDER_REVIEW', 'RESOLVED') DEFAULT 'PENDING' check (status in ('PENDING','UNDER_REVIEW','RESOLVED')), primary key (dispute_id))
+Hibernate: create table risk_assessments (advisor_id integer not null, assessment_date date not null, assessment_id integer generated by default as identity, policy_id integer not null unique, remarks TEXT, risk_level varchar(255) check (risk_level in ('LOW','MEDIUM','HIGH')), status varchar(255) not null check (status in ('APPROVED','REJECTED','REVISION_REQUIRED')), primary key (assessment_id))
+Hibernate: create table system_logs (entity_id integer, log_id integer generated by default as identity, user_id integer, timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP, entity varchar(100), action varchar(200) not null, primary key (log_id))
+Hibernate: create table users (active BOOLEAN DEFAULT TRUE not null, user_id integer generated by default as identity, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, phone varchar(20), password varchar(100) not null, username varchar(100) not null unique, email varchar(120) not null unique, full_name varchar(150) not null, address TEXT, role varchar(255) not null check (role in ('CUSTOMER','CUSTOMER_SERVICE_EXEC','SENIOR_ADVISOR','FINANCE_OFFICER','IT_ANALYST','HR_ADMIN')), primary key (user_id))
+Hibernate: alter table if exists beneficiaries add constraint FKscbx1520gc3taiku8l42qj0v0 foreign key (policy_id) references policies
+Hibernate: alter table if exists claim_documents add constraint FK1wmywqj1uideimwd7pdc8rxh4 foreign key (claim_id) references claims
+Hibernate: alter table if exists claims add constraint FKlq8n4o9soxyesmu73vguhasx8 foreign key (customer_id) references customers
+Hibernate: alter table if exists claims add constraint FKm0w2xffwe13pmkusoxnxuim7j foreign key (policy_id) references policies
+Hibernate: alter table if exists customers add constraint FKrh1g1a20omjmn6kurd35o3eit foreign key (user_id) references users
+Hibernate: alter table if exists payments add constraint FKqopx5fl4d09c9txsbvsublri3 foreign key (finance_officer_id) references users
+Hibernate: alter table if exists payments add constraint FKlemj5kqcn9p31xx0qbpwu3p3l foreign key (policy_id) references policies
+Hibernate: alter table if exists policies add constraint FK3jn0hmq741v0pgbm5r3eav5dj foreign key (advisor_id) references users
+Hibernate: alter table if exists policies add constraint FKkgwmqadssjki9pv5e7cjofc2w foreign key (customer_id) references customers
+Hibernate: alter table if exists policy_disputes add constraint FK72lm92nakvqj6qkilx8s2gfib foreign key (customer_id) references customers
+Hibernate: alter table if exists policy_disputes add constraint FKjdep141rfu7dvdddx2gwr9j8a foreign key (policy_id) references policies
+Hibernate: alter table if exists risk_assessments add constraint FKex0j34xt052bja8eoop4npeul foreign key (advisor_id) references users
+Hibernate: alter table if exists risk_assessments add constraint FKt9jt3i0hmspbg3sj81iiqovs3 foreign key (policy_id) references policies
+Hibernate: alter table if exists system_logs add constraint FK3duy1vdqrob9rjxy67079ja4w foreign key (user_id) references users
+2025-10-01T21:15:51.051Z  INFO 35772 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-10-01T21:15:51.308Z  INFO 35772 --- [           main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-10-01T21:15:52.172Z  WARN 35772 --- [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-10-01T21:15:52.485Z  INFO 35772 --- [           main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@5317a7ef, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@6fa48ee4, org.springframework.security.web.context.SecurityContextHolderFilter@47c06b1a, org.springframework.security.web.header.HeaderWriterFilter@ab5954d, org.springframework.web.filter.CorsFilter@a422390, org.springframework.security.web.csrf.CsrfFilter@1d306d27, org.springframework.security.web.authentication.logout.LogoutFilter@72f5fb36, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@40032b7b, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@5c39da9e, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@e38b953, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@53c39950, org.springframework.security.web.access.ExceptionTranslationFilter@13a8cb4e, org.springframework.security.web.access.intercept.AuthorizationFilter@30dabb23]
+2025-10-01T21:15:52.782Z  INFO 35772 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path ''
+2025-10-01T21:15:52.792Z  INFO 35772 --- [           main] c.l.LifeInsuranceSystemApplication       : Started LifeInsuranceSystemApplication in 5.642 seconds (process running for 5.987)
+2025-10-01T21:16:12.763Z  INFO 35772 --- [nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-10-01T21:16:12.763Z  INFO 35772 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-10-01T21:16:12.765Z  INFO 35772 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+Hibernate: select u1_0.user_id,u1_0.active,u1_0.address,u1_0.created_at,u1_0.email,u1_0.full_name,u1_0.password,u1_0.phone,u1_0.role,u1_0.updated_at,u1_0.username from users u1_0 where u1_0.username=?
+Hibernate: select u1_0.user_id,u1_0.active,u1_0.address,u1_0.created_at,u1_0.email,u1_0.full_name,u1_0.password,u1_0.phone,u1_0.role,u1_0.updated_at,u1_0.username from users u1_0 where u1_0.username=?
+Hibernate: insert into system_logs (action,entity,entity_id,timestamp,user_id,log_id) values (?,?,?,?,?,default)
+Hibernate: select u1_0.user_id,u1_0.active,u1_0.address,u1_0.created_at,u1_0.email,u1_0.full_name,u1_0.password,u1_0.phone,u1_0.role,u1_0.updated_at,u1_0.username from users u1_0
