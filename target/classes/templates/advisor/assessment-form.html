@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/header :: header-links(pageTitle='Manage Risk Assessment')}"></head>
+<body>
+
+<div class="d-flex">
+    <!-- Sidebar -->
+    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+    <!-- Main Content -->
+    <div class="main-content flex-grow-1">
+        <div class="container-fluid">
+
+            <div class="mb-4" data-aos="fade-down">
+                <h1 class="h3 mb-0">Manage Risk Assessment</h1>
+                <p class="text-muted">For Policy #<span th:text="${assessment.policy.policyId}"></span> - <span th:text="${assessment.policy.policyType}"></span></p>
+            </div>
+
+            <div class="card" data-aos="fade-up">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Assessment Details</h5>
+                </div>
+                <div class="card-body">
+                    <form th:action="@{/advisor/assessments/save}" th:object="${assessment}" method="post">
+                        <!-- Hidden fields to preserve IDs -->
+                        <input type="hidden" th:field="*{assessmentId}" />
+                        <input type="hidden" th:field="*{policy}" />
+                        <input type="hidden" th:field="*{advisor}" />
+                        <input type="hidden" th:field="*{assessmentDate}" />
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Customer Name</label>
+                                <input type="text" class="form-control" th:value="${assessment.policy.customer.user.fullName}" disabled>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Policy Sum Assured</label>
+                                <input type="text" class="form-control" th:value="${'LKR ' + #numbers.formatDecimal(assessment.policy.sumAssured, 1, 'COMMA', 2, 'POINT')}" disabled>
+                            </div>
+                        </div>
+
+                        <hr class="my-3">
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="riskLevel" class="form-label">Risk Level</label>
+                                <select id="riskLevel" class="form-select" th:field="*{riskLevel}" required>
+                                    <option value="">-- Select Risk Level --</option>
+                                    <option th:each="level : ${riskLevels}"
+                                            th:value="${level}"
+                                            th:text="${level.name()}"></option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="status" class="form-label">Assessment Status</label>
+                                <select id="status" class="form-select" th:field="*{status}" required>
+                                     <option value="">-- Select Status --</option>
+                                    <option th:each="stat : ${statuses}"
+                                            th:value="${stat}"
+                                            th:text="${stat.name()}"></option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="remarks" class="form-label">Remarks</label>
+                            <textarea id="remarks" class="form-control" th:field="*{remarks}" rows="4" placeholder="Add any relevant remarks about the assessment..."></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Save Assessment</button>
+                        <a th:href="@{/advisor/dashboard}" class="btn btn-secondary">Cancel</a>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/footer :: footer-scripts}"></div>
+</body>
+</html>

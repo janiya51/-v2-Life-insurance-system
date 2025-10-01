@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/header :: header-links(pageTitle='Finance Dashboard')}"></head>
+<body>
+
+<div class="d-flex">
+    <!-- Sidebar -->
+    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+    <!-- Main Content -->
+    <div class="main-content flex-grow-1">
+        <div class="container-fluid">
+
+            <div class="mb-4" data-aos="fade-down">
+                <h1 class="h3 mb-0">Finance Dashboard</h1>
+                <p class="text-muted">Overview of all payment transactions.</p>
+            </div>
+
+            <!-- Payments List -->
+            <div class="card" data-aos="fade-up">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="card-title mb-0"><i class="fas fa-money-bill-wave me-2"></i>All Payments</h5>
+                    <a th:href="@{/finance/payments/new}" class="btn btn-primary btn-sm">
+                        <i class="fas fa-plus me-1"></i> Record New Payment
+                    </a>
+                </div>
+                <div class="card-body">
+                    <div th:if="${#lists.isEmpty(payments)}">
+                        <p>No payments have been recorded yet.</p>
+                    </div>
+                    <div class="table-responsive" th:if="${not #lists.isEmpty(payments)}">
+                        <table class="table table-dark table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Payment ID</th>
+                                    <th>Policy ID</th>
+                                    <th>Amount</th>
+                                    <th>Type</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="payment : ${payments}">
+                                    <td th:text="${payment.paymentId}"></td>
+                                    <td th:text="${payment.policy.policyId}"></td>
+                                    <td th:text="${'LKR ' + #numbers.formatDecimal(payment.amount, 1, 'COMMA', 2, 'POINT')}"></td>
+                                    <td th:text="${payment.paymentType.name()}"></td>
+                                    <td th:text="${#dates.format(payment.paymentDate, 'dd-MMM-yyyy')}"></td>
+                                    <td>
+                                        <span class="badge"
+                                              th:classappend="${payment.status.name() == 'COMPLETED' ? 'bg-success' : (payment.status.name() == 'FAILED' ? 'bg-danger' : 'bg-warning')}"
+                                              th:text="${payment.status.name()}"></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/footer :: footer-scripts}"></div>
+</body>
+</html>

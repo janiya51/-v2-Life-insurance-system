@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/header :: header-links(pageTitle='System Logs')}"></head>
+<body>
+
+<div class="d-flex">
+    <!-- Sidebar -->
+    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+    <!-- Main Content -->
+    <div class="main-content flex-grow-1">
+        <div class="container-fluid">
+
+            <div class="d-flex justify-content-between align-items-center mb-4" data-aos="fade-down">
+                <div>
+                    <h1 class="h3 mb-0">System Activity Logs</h1>
+                    <p class="text-muted">A complete record of all actions performed in the system.</p>
+                </div>
+                <a th:href="@{/analyst/logs/delete-old}" class="btn btn-outline-danger" onclick="return confirm('Are you sure you want to delete all logs older than one year?');">
+                    <i class="fas fa-trash-alt me-1"></i> Delete Old Logs
+                </a>
+            </div>
+
+            <!-- Success/Error Messages -->
+            <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+            <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+
+            <!-- Logs Table -->
+            <div class="card" data-aos="fade-up">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">All Logs</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-dark table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Timestamp</th>
+                                    <th>Username</th>
+                                    <th>Role</th>
+                                    <th>Action</th>
+                                    <th>Entity</th>
+                                    <th>Entity ID</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="log : ${logs}">
+                                    <td th:text="${log.logId}"></td>
+                                    <td th:text="${#dates.format(log.timestamp, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                                    <td th:text="${log.user != null ? log.user.username : 'SYSTEM'}"></td>
+                                    <td th:text="${log.user != null ? log.user.role.name() : 'N/A'}"></td>
+                                    <td th:text="${log.action}"></td>
+                                    <td th:text="${log.entity}"></td>
+                                    <td th:text="${log.entityId}"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/footer :: footer-scripts}"></div>
+</body>
+</html>

@@ -1,0 +1,227 @@
+/* =================================================
+   IMPORTS & FONT-FACE
+   ================================================= */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
+
+/* =================================================
+   CUSTOM VARIABLES
+   ================================================= */
+:root {
+    --main-bg-color: #121212; /* Darker main background */
+    --primary-surface-color: #1e1e1e; /* Color for cards, modals, etc. */
+    --secondary-surface-color: #2a2a2a;
+    --primary-accent-color: #009d63; /* Main green accent */
+    --secondary-accent-color: #00c87a; /* Lighter green for hover/active states */
+    --primary-text-color: #e0e0e0; /* Light grey for primary text */
+    --secondary-text-color: #a0a0a0; /* Dimmer grey for secondary text */
+    --border-color: #3a3a3a;
+    --error-color: #cf6679;
+    --success-color: #66bb6a;
+}
+
+/* =================================================
+   GENERAL STYLES
+   ================================================= */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--main-bg-color);
+    color: var(--primary-text-color);
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--primary-text-color);
+    font-weight: 600;
+}
+
+a {
+    color: var(--primary-accent-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: var(--secondary-accent-color);
+    text-decoration: none;
+}
+
+/* =================================================
+   LOGIN & REGISTER PAGE STYLES
+   ================================================= */
+.auth-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: url('https://images.unsplash.com/photo-1554755229-ca4470e22232?q=80&w=1974&auto=format&fit=crop') no-repeat center center/cover;
+    position: relative;
+}
+
+.auth-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(18, 18, 18, 0.8);
+    backdrop-filter: blur(5px);
+}
+
+.auth-card {
+    background-color: var(--primary-surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 450px;
+    z-index: 1;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+}
+
+.auth-title {
+    color: var(--primary-text-color);
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.form-control {
+    background-color: var(--secondary-surface-color);
+    border: 1px solid var(--border-color);
+    color: var(--primary-text-color);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+}
+
+.form-control:focus {
+    background-color: var(--secondary-surface-color);
+    color: var(--primary-text-color);
+    border-color: var(--primary-accent-color);
+    box-shadow: 0 0 0 0.2rem rgba(0, 157, 99, 0.25);
+}
+
+.btn-primary {
+    background-color: var(--primary-accent-color);
+    border-color: var(--primary-accent-color);
+    font-weight: 600;
+    padding: 0.75rem;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: var(--secondary-accent-color);
+    border-color: var(--secondary-accent-color);
+}
+
+/* =================================================
+   DASHBOARD LAYOUT
+   ================================================= */
+.sidebar {
+    background-color: var(--primary-surface-color);
+    border-right: 1px solid var(--border-color);
+    width: 260px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.sidebar-header .logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-text-color);
+}
+
+.sidebar-header .logo i {
+    color: var(--primary-accent-color);
+    margin-right: 0.5rem;
+}
+
+.sidebar-nav .nav-link {
+    color: var(--secondary-text-color);
+    display: block;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.sidebar-nav .nav-link.active,
+.sidebar-nav .nav-link:hover {
+    background-color: var(--primary-accent-color);
+    color: #fff;
+}
+
+.sidebar-nav .nav-link i {
+    margin-right: 1rem;
+    width: 20px;
+    text-align: center;
+}
+
+.sidebar-footer {
+    margin-top: auto;
+}
+
+.main-content {
+    margin-left: 260px;
+    padding: 2rem;
+}
+
+/* =================================================
+   COMPONENT STYLES (Tables, Cards, Forms)
+   ================================================= */
+.card {
+    background-color: var(--primary-surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+}
+
+.card-header {
+    background-color: var(--secondary-surface-color);
+    border-bottom: 1px solid var(--border-color);
+    font-weight: 600;
+}
+
+.table {
+    color: var(--primary-text-color);
+}
+
+.table th {
+    color: var(--secondary-text-color);
+    border-bottom: 2px solid var(--border-color);
+}
+
+.table td {
+    border-color: var(--border-color);
+}
+
+.table-dark {
+    --bs-table-bg: var(--primary-surface-color);
+    --bs-table-border-color: var(--border-color);
+    --bs-table-striped-bg: var(--secondary-surface-color);
+    --bs-table-hover-bg: #2c2c2c;
+}
+
+.alert-success {
+    background-color: var(--success-color);
+    color: #fff;
+}
+
+.alert-danger {
+    background-color: var(--error-color);
+    color: #fff;
+}

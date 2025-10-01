@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/header :: header-links(pageTitle='Customer Dashboard')}"></head>
+<body>
+
+<div class="d-flex">
+    <!-- Sidebar -->
+    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+    <!-- Main Content -->
+    <div class="main-content flex-grow-1">
+        <div class="container-fluid">
+
+            <!-- Welcome Header -->
+            <div class="mb-4" data-aos="fade-down">
+                <h1 class="h3 mb-0">Welcome, <span th:text="${customer.user.fullName}">Customer</span>!</h1>
+                <p class="text-muted">Here is a summary of your insurance activities.</p>
+            </div>
+
+            <!-- Policies Overview -->
+            <div class="card mb-4" data-aos="fade-up">
+                <div class="card-header">
+                    <h5 class="card-title mb-0"><i class="fas fa-file-contract me-2"></i>Your Policies</h5>
+                </div>
+                <div class="card-body">
+                    <div th:if="${#lists.isEmpty(policies)}">
+                        <p>You currently have no active policies.</p>
+                    </div>
+                    <div class="table-responsive" th:if="${not #lists.isEmpty(policies)}">
+                        <table class="table table-dark table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Policy ID</th>
+                                    <th>Type</th>
+                                    <th>Status</th>
+                                    <th>Sum Assured</th>
+                                    <th>End Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="policy : ${policies}">
+                                    <td th:text="${policy.policyId}">1</td>
+                                    <td th:text="${policy.policyType}">Life Coverage</td>
+                                    <td><span class="badge" th:classappend="${policy.status.name() == 'ACTIVE' ? 'bg-success' : 'bg-warning'}" th:text="${policy.status.name()}">ACTIVE</span></td>
+                                    <td th:text="${'LKR ' + #numbers.formatDecimal(policy.sumAssured, 1, 'COMMA', 2, 'POINT')}">LKR 5,000,000.00</td>
+                                    <td th:text="${#dates.format(policy.endDate, 'dd-MMM-yyyy')}">01-Jan-2045</td>
+                                    <td>
+                                        <a th:href="@{/customer/policies/{id}/beneficiaries(id=${policy.policyId})}" class="btn btn-sm btn-outline-info">Beneficiaries</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Claims -->
+            <div class="card" data-aos="fade-up" data-aos-delay="100">
+                <div class="card-header">
+                    <h5 class="card-title mb-0"><i class="fas fa-hand-holding-medical me-2"></i>Your Claims</h5>
+                </div>
+                <div class="card-body">
+                    <div th:if="${#lists.isEmpty(claims)}">
+                        <p>You have not submitted any claims.</p>
+                    </div>
+                    <div class="table-responsive" th:if="${not #lists.isEmpty(claims)}">
+                        <table class="table table-dark table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Claim ID</th>
+                                    <th>Policy ID</th>
+                                    <th>Submitted Date</th>
+                                    <th>Status</th>
+                                    <th>Remarks</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="claim : ${claims}">
+                                    <td th:text="${claim.claimId}">1</td>
+                                    <td th:text="${claim.policy.policyId}">1</td>
+                                    <td th:text="${#dates.format(claim.submittedDate, 'dd-MMM-yyyy')}">01-Mar-2025</td>
+                                    <td><span class="badge bg-primary" th:text="${claim.status.name()}">PENDING</span></td>
+                                    <td th:text="${claim.remarks}">Hospitalization expenses</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                     <a th:href="@{/customer/claims}" class="btn btn-primary mt-3">View All Claims</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/footer :: footer-scripts}"></div>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<div th:fragment="sidebar" class="sidebar">
+    <div class="sidebar-header">
+        <a th:href="@{/}" class="logo">
+            <i class="fas fa-shield-alt"></i>
+            <span>LifeSystem</span>
+        </a>
+    </div>
+
+    <nav class="sidebar-nav">
+        <!-- Customer Menu -->
+        <div sec:authorize="hasRole('CUSTOMER')">
+            <a class="nav-link" th:href="@{/customer/dashboard}"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+            <a class="nav-link" th:href="@{/customer/profile}"><i class="fas fa-user-circle"></i> My Profile</a>
+            <a class="nav-link" th:href="@{/customer/policies}"><i class="fas fa-file-contract"></i> My Policies</a>
+            <a class="nav-link" th:href="@{/customer/claims}"><i class="fas fa-hand-holding-medical"></i> My Claims</a>
+        </div>
+
+        <!-- Customer Service Executive Menu -->
+        <div sec:authorize="hasRole('CUSTOMER_SERVICE_EXEC')">
+            <a class="nav-link" th:href="@{/executive/dashboard}"><i class="fas fa-headset"></i> Dashboard</a>
+            <a class="nav-link" th:href="@{/executive/customers}"><i class="fas fa-users"></i> Customer Profiles</a>
+        </div>
+
+        <!-- Senior Insurance Advisor Menu -->
+        <div sec:authorize="hasRole('SENIOR_ADVISOR')">
+            <a class="nav-link" th:href="@{/advisor/dashboard}"><i class="fas fa-user-tie"></i> Assigned Policies</a>
+        </div>
+
+        <!-- Finance Officer Menu -->
+        <div sec:authorize="hasRole('FINANCE_OFFICER')">
+            <a class="nav-link" th:href="@{/finance/dashboard}"><i class="fas fa-cash-register"></i> Dashboard</a>
+            <a class="nav-link" th:href="@{/finance/payments}"><i class="fas fa-money-bill-wave"></i> All Payments</a>
+            <a class="nav-link" th:href="@{/finance/payments/new}"><i class="fas fa-plus-circle"></i> Record Payment</a>
+        </div>
+
+        <!-- IT System Analyst Menu -->
+        <div sec:authorize="hasRole('IT_ANALYST')">
+            <a class="nav-link" th:href="@{/analyst/dashboard}"><i class="fas fa-cogs"></i> Dashboard</a>
+            <a class="nav-link" th:href="@{/analyst/logs}"><i class="fas fa-clipboard-list"></i> System Logs</a>
+        </div>
+
+        <!-- HR & Admin Manager Menu -->
+        <div sec:authorize="hasRole('HR_ADMIN')">
+            <a class="nav-link" th:href="@{/admin/dashboard}"><i class="fas fa-user-shield"></i> Dashboard</a>
+            <a class="nav-link" th:href="@{/admin/users}"><i class="fas fa-users-cog"></i> User Management</a>
+            <a class="nav-link" th:href="@{/admin/disputes}"><i class="fas fa-gavel"></i> Policy Disputes</a>
+        </div>
+    </nav>
+
+    <div class="sidebar-footer">
+        <a th:href="@{/logout}" class="nav-link logout-btn">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Logout</span>
+        </a>
+    </div>
+</div>

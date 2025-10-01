@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/header :: header-links(pageTitle='My Claims')}"></head>
+<body>
+
+<div class="d-flex">
+    <!-- Sidebar -->
+    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+    <!-- Main Content -->
+    <div class="main-content flex-grow-1">
+        <div class="container-fluid">
+
+            <div class="mb-4" data-aos="fade-down">
+                <h1 class="h3 mb-0">My Claims</h1>
+                <p class="text-muted">Submit a new claim or view the status of existing ones.</p>
+            </div>
+
+            <!-- Success/Error Messages -->
+            <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+            <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+
+            <!-- Submit New Claim Form -->
+            <div class="card mb-4" data-aos="fade-up">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Submit a New Claim</h5>
+                </div>
+                <div class="card-body">
+                    <form th:action="@{/customer/claims/submit}" th:object="${newClaim}" method="post">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="policy" class="form-label">Select Policy</label>
+                                <select class="form-select" id="policy" th:field="*{policy}" required>
+                                    <option value="">-- Select a Policy --</option>
+                                    <option th:each="policy : ${policies}"
+                                            th:value="${policy.policyId}"
+                                            th:text="${'Policy #' + policy.policyId + ' - ' + policy.policyType}"></option>
+                                </select>
+                            </div>
+                             <div class="col-md-6 mb-3">
+                                <label for="submittedDate" class="form-label">Date of Incident</label>
+                                <input type="date" class="form-control" id="submittedDate" th:field="*{submittedDate}" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="remarks" class="form-label">Claim Remarks / Description</label>
+                            <textarea class="form-control" id="remarks" th:field="*{remarks}" rows="3" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit Claim</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Existing Claims List -->
+            <div class="card" data-aos="fade-up" data-aos-delay="100">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Claim History</h5>
+                </div>
+                <div class="card-body">
+                     <div th:if="${#lists.isEmpty(claims)}">
+                        <p>You have not submitted any claims yet.</p>
+                    </div>
+                    <div class="table-responsive" th:if="${not #lists.isEmpty(claims)}">
+                        <table class="table table-dark table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Claim ID</th>
+                                    <th>Policy ID</th>
+                                    <th>Submitted Date</th>
+                                    <th>Status</th>
+                                    <th>Remarks</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="claim : ${claims}">
+                                    <td th:text="${claim.claimId}"></td>
+                                    <td th:text="${claim.policy.policyId}"></td>
+                                    <td th:text="${#dates.format(claim.submittedDate, 'dd-MMM-yyyy')}"></td>
+                                    <td><span class="badge bg-info" th:text="${claim.status.name()}"></span></td>
+                                    <td th:text="${claim.remarks}"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/footer :: footer-scripts}"></div>
+</body>
+</html>
