@@ -35,17 +35,15 @@ public class AdminServiceImpl implements AdminService {
         if (userRepository.findByEmail(user.getEmail()).isPresent()) {
             throw new Exception("Email already exists: " + user.getEmail());
         }
-        // Ensure only non-customer roles can be created here
         if (user.getRole() == User.Role.CUSTOMER) {
             throw new IllegalArgumentException("Cannot create a CUSTOMER role via the admin service.");
         }
-        user.setActive(true); // New users are active by default
+        user.setActive(true);
         return userRepository.save(user);
     }
 
     @Override
     public List<User> findAllStaffUsers() {
-        // Filter out customers to return only staff members
         return userRepository.findAll().stream()
                 .filter(user -> user.getRole() != User.Role.CUSTOMER)
                 .collect(Collectors.toList());
@@ -59,7 +57,6 @@ public class AdminServiceImpl implements AdminService {
     @Override
     @Transactional
     public User updateUser(User user) {
-        // The save method handles both create and update operations
         return userRepository.save(user);
     }
 
@@ -96,6 +93,24 @@ public class AdminServiceImpl implements AdminService {
     @Override
     @Transactional
     public void deleteDispute(int id) {
+        PolicyDispute dispute = policyDisputeRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Dispute not found with id: " + id));
+        if (dispute.getStatus() != PolicyDispute.Status.RESOLVED) {
+            throw new IllegalStateException("Only RESOLVED disputes can be deleted.");
+        }
         policyDisputeRepository.deleteById(id);
+    }
+
+    // --- Profile Management ---
+    @Override
+    public Optional<User> findUserByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
+    @Override
+    @Transactional
+    public User updateAdminProfile(User user) {
+        // Here you might add extra validation to ensure an admin cannot change their own role, for example.
+        return userRepository.save(user);
     }
 }

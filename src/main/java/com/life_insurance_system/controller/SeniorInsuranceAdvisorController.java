@@ -20,7 +20,7 @@ import java.time.LocalDate;
 public class SeniorInsuranceAdvisorController {
 
     private final SeniorInsuranceAdvisorService advisorService;
-    private final UserRepository userRepository;
+    private final UserRepository userRepository; // To fetch the currently logged-in user
 
     @Autowired
     public SeniorInsuranceAdvisorController(SeniorInsuranceAdvisorService advisorService, UserRepository userRepository) {
@@ -37,7 +37,7 @@ public class SeniorInsuranceAdvisorController {
     public String showAdvisorDashboard(Model model, Principal principal) {
         User advisor = getAuthenticatedAdvisor(principal);
         model.addAttribute("policies", advisorService.findPoliciesByAdvisorId(advisor.getUserId()));
-        return "advisor/dashboard"; // Returns advisor/dashboard.html
+        return "advisor/dashboard";
     }
 
     @GetMapping("/assessments/manage/{policyId}")
@@ -46,7 +46,7 @@ public class SeniorInsuranceAdvisorController {
         RiskAssessment assessment = advisorService.findRiskAssessmentByPolicyId(policyId)
                 .orElse(new RiskAssessment());
 
-        // If it's a new assessment, pre-populate necessary fields
+        // Pre-populate new assessment with necessary details
         if (assessment.getAssessmentId() == 0) {
             Policy policy = advisorService.findPoliciesByAdvisorId(advisor.getUserId()).stream()
                     .filter(p -> p.getPolicyId() == policyId).findFirst()
@@ -59,7 +59,7 @@ public class SeniorInsuranceAdvisorController {
         model.addAttribute("assessment", assessment);
         model.addAttribute("riskLevels", RiskAssessment.RiskLevel.values());
         model.addAttribute("statuses", RiskAssessment.Status.values());
-        return "advisor/assessment-form"; // Returns advisor/assessment-form.html
+        return "advisor/assessment-form";
     }
 
     @PostMapping("/assessments/save")
@@ -68,7 +68,18 @@ public class SeniorInsuranceAdvisorController {
             advisorService.saveRiskAssessment(assessment);
             redirectAttributes.addFlashAttribute("successMessage", "Risk assessment saved successfully!");
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            redirectAttributes.addFlashAttribute("errorMessage", "Error: " + e.getMessage());
+        }
+        return "redirect:/advisor/dashboard";
+    }
+
+    @GetMapping("/assessments/delete/{id}")
+    public String deleteAssessment(@PathVariable("id") int id, RedirectAttributes redirectAttributes) {
+        try {
+            advisorService.deleteRiskAssessment(id);
+            redirectAttributes.addFlashAttribute("successMessage", "Risk assessment deleted successfully!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Error: " + e.getMessage());
         }
         return "redirect:/advisor/dashboard";
     }

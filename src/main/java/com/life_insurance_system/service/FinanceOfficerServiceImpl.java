@@ -1,7 +1,9 @@
 package com.life_insurance_system.service;
 
 import com.life_insurance_system.model.Payment;
+import com.life_insurance_system.model.Policy;
 import com.life_insurance_system.repository.PaymentRepository;
+import com.life_insurance_system.repository.PolicyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,10 +15,12 @@ import java.util.Optional;
 public class FinanceOfficerServiceImpl implements FinanceOfficerService {
 
     private final PaymentRepository paymentRepository;
+    private final PolicyRepository policyRepository;
 
     @Autowired
-    public FinanceOfficerServiceImpl(PaymentRepository paymentRepository) {
+    public FinanceOfficerServiceImpl(PaymentRepository paymentRepository, PolicyRepository policyRepository) {
         this.paymentRepository = paymentRepository;
+        this.policyRepository = policyRepository;
     }
 
     @Override
@@ -30,9 +34,13 @@ public class FinanceOfficerServiceImpl implements FinanceOfficerService {
     }
 
     @Override
+    public List<Policy> findAllPolicies() {
+        return policyRepository.findAll();
+    }
+
+    @Override
     @Transactional
     public Payment recordNewPayment(Payment payment) {
-        // New payments default to PENDING status as per the database schema
         if (payment.getStatus() == null) {
             payment.setStatus(Payment.Status.PENDING);
         }
@@ -45,7 +53,6 @@ public class FinanceOfficerServiceImpl implements FinanceOfficerService {
         Payment payment = paymentRepository.findById(paymentId)
                 .orElseThrow(() -> new RuntimeException("Payment not found with id: " + paymentId));
 
-        // Business Rule: Only PENDING or FAILED payments can be updated.
         if (payment.getStatus() != Payment.Status.PENDING && payment.getStatus() != Payment.Status.FAILED) {
             throw new IllegalStateException("Only payments with PENDING or FAILED status can be updated. Current status: " + payment.getStatus());
         }
@@ -60,7 +67,6 @@ public class FinanceOfficerServiceImpl implements FinanceOfficerService {
         Payment payment = paymentRepository.findById(paymentId)
                 .orElseThrow(() -> new RuntimeException("Payment not found with id: " + paymentId));
 
-        // Business Rule: Only FAILED payments can be deleted (cancelled).
         if (payment.getStatus() != Payment.Status.FAILED) {
             throw new IllegalStateException("Only payments with FAILED status can be cancelled. Current status: " + payment.getStatus());
         }

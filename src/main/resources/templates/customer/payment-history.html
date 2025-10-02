@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Analyst Dashboard</title>
+    <title>Payment History</title>
     <!-- CDN Links -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -25,9 +25,11 @@
             </a>
         </div>
         <nav class="sidebar-nav">
-            <div sec:authorize="hasRole('IT_ANALYST')">
-                <a class="nav-link active" th:href="@{/analyst/dashboard}"><i class="fas fa-cogs"></i> Dashboard</a>
-                <a class="nav-link" th:href="@{/analyst/logs}"><i class="fas fa-clipboard-list"></i> System Logs</a>
+            <div sec:authorize="hasRole('CUSTOMER')">
+                 <a class="nav-link" th:href="@{/customer/dashboard}"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                <a class="nav-link" th:href="@{/customer/profile}"><i class="fas fa-user-circle"></i> My Profile</a>
+                <a class="nav-link active" th:href="@{/customer/policies}"><i class="fas fa-file-contract"></i> My Policies</a>
+                <a class="nav-link" th:href="@{/customer/claims}"><i class="fas fa-hand-holding-medical"></i> My Claims</a>
             </div>
         </nav>
         <div class="sidebar-footer">
@@ -45,45 +47,47 @@
         <div class="container-fluid">
 
             <div class="mb-4" data-aos="fade-down">
-                <h1 class="h3 mb-0">IT System Analyst Dashboard</h1>
-                <p class="text-muted">Live feed of system and user activities.</p>
+                <h1 class="h3 mb-0">Payment History</h1>
+                <p class="text-muted">Showing payments for Policy #<span th:text="${policy.policyId}"></span></p>
             </div>
 
             <div class="card" data-aos="fade-up">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="card-title mb-0"><i class="fas fa-clipboard-list me-2"></i>System Activity Logs</h5>
-                    <a th:href="@{/analyst/logs}" class="btn btn-primary btn-sm">View All Logs</a>
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Transaction List</h5>
                 </div>
                 <div class="card-body">
-                     <div th:if="${#lists.isEmpty(logs)}">
-                        <p>No system logs recorded yet.</p>
+                    <div th:if="${#lists.isEmpty(payments)}">
+                        <p>No payment history found for this policy.</p>
                     </div>
-                    <div class="table-responsive" th:if="${not #lists.isEmpty(logs)}">
+                    <div class="table-responsive" th:if="${not #lists.isEmpty(payments)}">
                         <table class="table table-dark table-hover">
                             <thead>
                                 <tr>
-                                    <th>Log ID</th>
-                                    <th>Timestamp</th>
-                                    <th>User</th>
-                                    <th>Action</th>
-                                    <th>Entity</th>
+                                    <th>Payment ID</th>
+                                    <th>Date</th>
+                                    <th>Amount</th>
+                                    <th>Type</th>
+                                    <th>Status</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <!-- Display latest 10 logs for dashboard -->
-                                <tr th:each="log : ${logs.subList(0, T(java.lang.Math).min(logs.size(), 10))}">
-                                    <td th:text="${log.logId}"></td>
-                                    <td th:text="${#dates.format(log.timestamp, 'yyyy-MM-dd HH:mm:ss')}"></td>
-                                    <td th:text="${log.user != null ? log.user.username : 'SYSTEM'}"></td>
-                                    <td th:text="${log.action}"></td>
-                                    <td th:text="${log.entity}"></td>
+                                <tr th:each="payment : ${payments}">
+                                    <td th:text="${payment.paymentId}"></td>
+                                    <td th:text="${#dates.format(payment.paymentDate, 'dd-MMM-yyyy')}"></td>
+                                    <td th:text="${'LKR ' + #numbers.formatDecimal(payment.amount, 1, 'COMMA', 2, 'POINT')}"></td>
+                                    <td th:text="${payment.paymentType.name()}"></td>
+                                    <td>
+                                        <span class="badge"
+                                              th:classappend="${payment.status.name() == 'COMPLETED' ? 'bg-success' : (payment.status.name() == 'FAILED' ? 'bg-danger' : 'bg-warning')}"
+                                              th:text="${payment.status.name()}"></span>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
+                    <a th:href="@{/customer/policies}" class="btn btn-secondary mt-3">Back to Policies</a>
                 </div>
             </div>
-
         </div>
     </div>
 </div>

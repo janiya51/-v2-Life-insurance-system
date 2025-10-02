@@ -8,5 +8,6 @@ import java.util.List;
 
 @Repository
 public interface BeneficiaryRepository extends JpaRepository<Beneficiary, Integer> {
+
     List<Beneficiary> findByPolicy_PolicyId(int policyId);
 }

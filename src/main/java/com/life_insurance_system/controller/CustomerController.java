@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 @RequestMapping("/customer")
@@ -33,42 +34,54 @@ public class CustomerController {
         model.addAttribute("customer", customer);
         model.addAttribute("policies", customerService.findPoliciesByCustomerId(customer.getCustomerId()));
         model.addAttribute("claims", customerService.findClaimsByCustomerId(customer.getCustomerId()));
-        return "customer/dashboard"; // Returns customer/dashboard.html
+        return "customer/dashboard";
     }
 
-    // --- Profile ---
+    // --- Profile Management ---
     @GetMapping("/profile")
     public String showProfile(Model model, Principal principal) {
         model.addAttribute("customer", getAuthenticatedCustomer(principal));
-        return "customer/profile"; // Returns customer/profile.html
+        return "customer/profile";
     }
 
     @PostMapping("/profile/update")
     public String updateProfile(@ModelAttribute("customer") Customer customer, Principal principal, RedirectAttributes redirectAttributes) {
         Customer authCustomer = getAuthenticatedCustomer(principal);
-        // Ensure users can only update their own profile
         customer.setCustomerId(authCustomer.getCustomerId());
-        customer.setUser(authCustomer.getUser()); // Preserve the original user link
+        customer.setUser(authCustomer.getUser());
         customerService.updateCustomerProfile(customer);
         redirectAttributes.addFlashAttribute("successMessage", "Profile updated successfully!");
         return "redirect:/customer/profile";
     }
 
-    // --- Policies ---
+    // --- Policy & Payment History ---
     @GetMapping("/policies")
     public String listPolicies(Model model, Principal principal) {
         Customer customer = getAuthenticatedCustomer(principal);
         model.addAttribute("policies", customerService.findPoliciesByCustomerId(customer.getCustomerId()));
-        return "customer/policy-list"; // Returns customer/policy-list.html
+        return "customer/policy-list";
     }
 
-    // --- Beneficiaries ---
+    @GetMapping("/policies/{policyId}/payments")
+    public String showPaymentHistory(@PathVariable int policyId, Model model, Principal principal) {
+        Policy policy = customerService.findPolicyById(policyId).orElseThrow(() -> new RuntimeException("Policy not found"));
+        // Security check: ensure the policy belongs to the logged-in customer
+        if (policy.getCustomer().getCustomerId() != getAuthenticatedCustomer(principal).getCustomerId()) {
+            throw new IllegalStateException("Unauthorized access to payment history");
+        }
+        model.addAttribute("policy", policy);
+        model.addAttribute("payments", customerService.findPaymentHistoryByPolicyId(policyId));
+        return "customer/payment-history";
+    }
+
+
+    // --- Beneficiary Management ---
     @GetMapping("/policies/{policyId}/beneficiaries")
     public String listBeneficiaries(@PathVariable int policyId, Model model) {
         model.addAttribute("policy", customerService.findPolicyById(policyId).orElse(null));
         model.addAttribute("beneficiaries", customerService.findBeneficiariesByPolicyId(policyId));
         model.addAttribute("newBeneficiary", new Beneficiary());
-        return "customer/beneficiary-list"; // Returns customer/beneficiary-list.html
+        return "customer/beneficiary-list";
     }
 
     @PostMapping("/policies/{policyId}/beneficiaries/add")
@@ -90,15 +103,14 @@ public class CustomerController {
         return "redirect:/customer/policies/" + policyId + "/beneficiaries";
     }
 
-
-    // --- Claims ---
+    // --- Claim Management ---
     @GetMapping("/claims")
     public String listClaims(Model model, Principal principal) {
         Customer customer = getAuthenticatedCustomer(principal);
         model.addAttribute("claims", customerService.findClaimsByCustomerId(customer.getCustomerId()));
         model.addAttribute("newClaim", new Claim());
         model.addAttribute("policies", customerService.findPoliciesByCustomerId(customer.getCustomerId()));
-        return "customer/claim-list"; // Returns customer/claim-list.html
+        return "customer/claim-list";
     }
 
     @PostMapping("/claims/submit")

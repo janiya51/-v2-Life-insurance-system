@@ -1,5 +1,6 @@
 package com.life_insurance_system.controller;
 
+import com.life_insurance_system.dto.UserRegistrationDto;
 import com.life_insurance_system.model.Customer;
 import com.life_insurance_system.service.CustomerServiceExecutiveService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,21 +23,39 @@ public class CustomerServiceExecutiveController {
     @GetMapping("/dashboard")
     public String showExecutiveDashboard(Model model) {
         model.addAttribute("customers", executiveService.findAllCustomers());
-        return "executive/dashboard"; // Returns executive/dashboard.html
+        return "executive/dashboard";
     }
 
     @GetMapping("/customers")
     public String listCustomers(Model model) {
         model.addAttribute("customers", executiveService.findAllCustomers());
-        return "executive/customer-list"; // Returns executive/customer-list.html
+        return "executive/customer-list";
     }
+
+    @GetMapping("/customers/register")
+    public String showRegisterNewCustomerForm(Model model) {
+        model.addAttribute("userDto", new UserRegistrationDto());
+        return "executive/register-customer";
+    }
+
+    @PostMapping("/customers/register")
+    public String registerNewCustomer(@ModelAttribute("userDto") UserRegistrationDto registrationDto, RedirectAttributes redirectAttributes) {
+        try {
+            executiveService.registerNewCustomer(registrationDto);
+            redirectAttributes.addFlashAttribute("successMessage", "New customer registered successfully!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Error: " + e.getMessage());
+        }
+        return "redirect:/executive/customers";
+    }
+
 
     @GetMapping("/customers/edit/{id}")
     public String showEditCustomerForm(@PathVariable("id") int id, Model model) {
         Customer customer = executiveService.findCustomerById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid customer Id:" + id));
         model.addAttribute("customer", customer);
-        return "executive/customer-form"; // Returns executive/customer-form.html
+        return "executive/customer-form";
     }
 
     @PostMapping("/customers/update")
@@ -48,7 +67,7 @@ public class CustomerServiceExecutiveController {
             executiveService.updateCustomerContact(customerId, phone, address);
             redirectAttributes.addFlashAttribute("successMessage", "Customer contact updated successfully!");
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            redirectAttributes.addFlashAttribute("errorMessage", "Error: " + e.getMessage());
         }
         return "redirect:/executive/customers";
     }
@@ -59,7 +78,7 @@ public class CustomerServiceExecutiveController {
             executiveService.deactivateCustomerAccount(id);
             redirectAttributes.addFlashAttribute("successMessage", "Customer account deactivated successfully!");
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            redirectAttributes.addFlashAttribute("errorMessage", "Error: " + e.getMessage());
         }
         return "redirect:/executive/customers";
     }

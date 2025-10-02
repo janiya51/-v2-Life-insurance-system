@@ -17,23 +17,16 @@ public class CustomerServiceImpl implements CustomerService {
     private final BeneficiaryRepository beneficiaryRepository;
     private final ClaimRepository claimRepository;
     private final PaymentRepository paymentRepository;
-    private final UserRepository userRepository;
 
     @Autowired
     public CustomerServiceImpl(CustomerRepository customerRepository, PolicyRepository policyRepository,
                                BeneficiaryRepository beneficiaryRepository, ClaimRepository claimRepository,
-                               PaymentRepository paymentRepository, UserRepository userRepository) {
+                               PaymentRepository paymentRepository) {
         this.customerRepository = customerRepository;
         this.policyRepository = policyRepository;
         this.beneficiaryRepository = beneficiaryRepository;
         this.claimRepository = claimRepository;
         this.paymentRepository = paymentRepository;
-        this.userRepository = userRepository;
-    }
-
-    @Override
-    public Optional<Beneficiary> findBeneficiaryById(int beneficiaryId) {
-        return beneficiaryRepository.findById(beneficiaryId);
     }
 
     @Override
@@ -72,6 +65,11 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    public Optional<Beneficiary> findBeneficiaryById(int beneficiaryId) {
+        return beneficiaryRepository.findById(beneficiaryId);
+    }
+
+    @Override
     @Transactional
     public Beneficiary addBeneficiary(Beneficiary beneficiary) {
         return beneficiaryRepository.save(beneficiary);
@@ -103,7 +101,6 @@ public class CustomerServiceImpl implements CustomerService {
         if (existingClaim.getStatus() != Claim.Status.PENDING) {
             throw new IllegalStateException("Claim can only be updated while in PENDING status.");
         }
-        // Update allowed fields
         existingClaim.setRemarks(claim.getRemarks());
         return claimRepository.save(existingClaim);
     }

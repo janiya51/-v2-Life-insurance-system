@@ -1,6 +1,7 @@
 package com.life_insurance_system.service;
 
 import com.life_insurance_system.model.Payment;
+import com.life_insurance_system.model.Policy;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,6 +20,12 @@ public interface FinanceOfficerService {
      * @return An Optional containing the payment if found.
      */
     Optional<Payment> findPaymentById(int paymentId);
+
+    /**
+     * Finds all policies to associate with payments.
+     * @return A list of all policies.
+     */
+    List<Policy> findAllPolicies();
 
     /**
      * Records a new payment.

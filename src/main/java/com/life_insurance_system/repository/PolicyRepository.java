@@ -8,6 +8,8 @@ import java.util.List;
 
 @Repository
 public interface PolicyRepository extends JpaRepository<Policy, Integer> {
+
     List<Policy> findByCustomer_CustomerId(int customerId);
+
     List<Policy> findByAdvisor_UserId(int advisorId);
 }

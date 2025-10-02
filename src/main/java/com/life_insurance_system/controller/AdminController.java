@@ -4,10 +4,13 @@ import com.life_insurance_system.model.PolicyDispute;
 import com.life_insurance_system.model.User;
 import com.life_insurance_system.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.security.Principal;
 
 @Controller
 @RequestMapping("/admin")
@@ -20,24 +23,28 @@ public class AdminController {
         this.adminService = adminService;
     }
 
-    @GetMapping("/dashboard")
-    public String showAdminDashboard() {
-        return "admin/dashboard"; // Returns admin/dashboard.html
+    private User getAuthenticatedAdmin(Principal principal) {
+        return adminService.findUserByUsername(principal.getName())
+                .orElseThrow(() -> new IllegalStateException("Authenticated admin not found"));
     }
 
-    // --- User Management Endpoints ---
+    @GetMapping("/dashboard")
+    public String showAdminDashboard() {
+        return "admin/dashboard";
+    }
 
+    // --- User Management ---
     @GetMapping("/users")
     public String listUsers(Model model) {
         model.addAttribute("users", adminService.findAllStaffUsers());
-        return "admin/user-list"; // Returns admin/user-list.html
+        return "admin/user-list";
     }
 
     @GetMapping("/users/new")
     public String showCreateUserForm(Model model) {
         model.addAttribute("user", new User());
-        model.addAttribute("roles", User.Role.values()); // Provide all roles to the form
-        return "admin/user-form"; // Returns admin/user-form.html
+        model.addAttribute("roles", User.Role.values());
+        return "admin/user-form";
     }
 
     @PostMapping("/users/save")
@@ -51,7 +58,7 @@ public class AdminController {
                 redirectAttributes.addFlashAttribute("successMessage", "User updated successfully!");
             }
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            redirectAttributes.addFlashAttribute("errorMessage", "Error: " + e.getMessage());
         }
         return "redirect:/admin/users";
     }
@@ -72,12 +79,11 @@ public class AdminController {
         return "redirect:/admin/users";
     }
 
-    // --- Policy Dispute Endpoints ---
-
+    // --- Policy Dispute Management ---
     @GetMapping("/disputes")
     public String listDisputes(Model model) {
         model.addAttribute("disputes", adminService.findAllDisputes());
-        return "admin/dispute-list"; // Returns admin/dispute-list.html
+        return "admin/dispute-list";
     }
 
     @PostMapping("/disputes/update/{id}")
@@ -86,15 +92,38 @@ public class AdminController {
             adminService.updateDisputeStatus(id, status);
             redirectAttributes.addFlashAttribute("successMessage", "Dispute status updated successfully!");
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            redirectAttributes.addFlashAttribute("errorMessage", "Error: " + e.getMessage());
         }
         return "redirect:/admin/disputes";
     }
 
     @GetMapping("/disputes/delete/{id}")
     public String deleteDispute(@PathVariable("id") int id, RedirectAttributes redirectAttributes) {
-        adminService.deleteDispute(id);
-        redirectAttributes.addFlashAttribute("successMessage", "Dispute deleted successfully!");
+        try {
+            adminService.deleteDispute(id);
+            redirectAttributes.addFlashAttribute("successMessage", "Dispute deleted successfully!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Error: " + e.getMessage());
+        }
         return "redirect:/admin/disputes";
+    }
+
+    // --- Admin Profile Management ---
+    @GetMapping("/profile")
+    public String showAdminProfile(Model model, Principal principal) {
+        model.addAttribute("user", getAuthenticatedAdmin(principal));
+        return "admin/profile";
+    }
+
+    @PostMapping("/profile/update")
+    public String updateAdminProfile(@ModelAttribute("user") User user, Principal principal, RedirectAttributes redirectAttributes) {
+        User authUser = getAuthenticatedAdmin(principal);
+        // Ensure admins can only update their own profile and not change their ID or role
+        user.setUserId(authUser.getUserId());
+        user.setRole(authUser.getRole());
+        user.setPassword(authUser.getPassword()); // Prevent password changes on this form
+        adminService.updateAdminProfile(user);
+        redirectAttributes.addFlashAttribute("successMessage", "Profile updated successfully!");
+        return "redirect:/admin/profile";
     }
 }
