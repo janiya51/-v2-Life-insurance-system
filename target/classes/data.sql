@@ -1,5 +1,5 @@
 -- ======================================================
--- SAMPLE DATA INSERTS (Using snake_case table names)
+-- SAMPLE DATA INSERTS (Using snake_case table names for H2)
 -- ======================================================
 
 -- Users

@@ -22,13 +22,13 @@ public class ItSystemAnalystController {
     @GetMapping("/dashboard")
     public String showAnalystDashboard(Model model) {
         model.addAttribute("logs", analystService.findAllLogs());
-        return "analyst/dashboard"; // Returns analyst/dashboard.html
+        return "analyst/dashboard";
     }
 
     @GetMapping("/logs")
     public String listLogs(Model model) {
         model.addAttribute("logs", analystService.findAllLogs());
-        return "analyst/log-list"; // Returns analyst/log-list.html
+        return "analyst/log-list";
     }
 
     @GetMapping("/logs/delete-old")

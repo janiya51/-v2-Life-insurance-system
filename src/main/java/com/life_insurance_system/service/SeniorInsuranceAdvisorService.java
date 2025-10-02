@@ -35,4 +35,10 @@ public interface SeniorInsuranceAdvisorService {
      * @return The saved risk assessment.
      */
     RiskAssessment saveRiskAssessment(RiskAssessment riskAssessment);
+
+    /**
+     * Deletes a risk assessment.
+     * @param assessmentId The ID of the assessment to delete.
+     */
+    void deleteRiskAssessment(int assessmentId);
 }

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="${user.userId == 0 ? 'Create User' : 'Edit User'}">User Form</title>
+    <title>My Profile</title>
     <!-- CDN Links -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -27,9 +27,9 @@
         <nav class="sidebar-nav">
             <div sec:authorize="hasRole('HR_ADMIN')">
                 <a class="nav-link" th:href="@{/admin/dashboard}"><i class="fas fa-user-shield"></i> Dashboard</a>
-                <a class="nav-link active" th:href="@{/admin/users}"><i class="fas fa-users-cog"></i> User Management</a>
+                <a class="nav-link" th:href="@{/admin/users}"><i class="fas fa-users-cog"></i> User Management</a>
                 <a class="nav-link" th:href="@{/admin/disputes}"><i class="fas fa-gavel"></i> Policy Disputes</a>
-                <a class="nav-link" th:href="@{/admin/profile}"><i class="fas fa-id-card"></i> My Profile</a>
+                <a class="nav-link active" th:href="@{/admin/profile}"><i class="fas fa-id-card"></i> My Profile</a>
             </div>
         </nav>
         <div class="sidebar-footer">
@@ -47,16 +47,19 @@
         <div class="container-fluid">
 
             <div class="mb-4" data-aos="fade-down">
-                <h1 class="h3 mb-0" th:text="${user.userId == 0 ? 'Create New Staff User' : 'Edit User'}"></h1>
-                <p class="text-muted">Fill in the details below to manage the user account.</p>
+                <h1 class="h3 mb-0">My Profile</h1>
+                <p class="text-muted">Update your personal information.</p>
             </div>
 
             <div class="card" data-aos="fade-up">
                 <div class="card-header">
-                    <h5 class="card-title mb-0">User Details</h5>
+                    <h5 class="card-title mb-0">Admin Profile Details</h5>
                 </div>
                 <div class="card-body">
-                    <form th:action="@{/admin/users/save}" th:object="${user}" method="post">
+                    <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+                    <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+
+                    <form th:action="@{/admin/profile/update}" th:object="${user}" method="post">
                         <input type="hidden" th:field="*{userId}" />
 
                         <div class="row">
@@ -66,7 +69,7 @@
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="username" class="form-label">Username</label>
-                                <input type="text" class="form-control" id="username" th:field="*{username}" required>
+                                <input type="text" class="form-control" id="username" th:field="*{username}" readonly>
                             </div>
                         </div>
 
@@ -76,25 +79,8 @@
                                 <input type="email" class="form-control" id="email" th:field="*{email}" required>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label for="password" class="form-label">Password</label>
-                                <input type="password" class="form-control" id="password" th:field="*{password}" th:required="${user.userId == 0}" placeholder="Required for new users">
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
                                 <label for="phone" class="form-label">Phone</label>
                                 <input type="text" class="form-control" id="phone" th:field="*{phone}">
-                            </div>
-                             <div class="col-md-6 mb-3">
-                                <label for="role" class="form-label">Role</label>
-                                <select class="form-select" id="role" th:field="*{role}" required>
-                                    <option value="">-- Select Role --</option>
-                                    <option th:each="roleOpt : ${roles}"
-                                            th:if="${roleOpt.name() != 'CUSTOMER'}"
-                                            th:value="${roleOpt}"
-                                            th:text="${roleOpt.name()}"></option>
-                                </select>
                             </div>
                         </div>
 
@@ -103,8 +89,7 @@
                             <textarea class="form-control" id="address" th:field="*{address}" rows="3"></textarea>
                         </div>
 
-                        <button type="submit" class="btn btn-primary">Save User</button>
-                        <a th:href="@{/admin/users}" class="btn btn-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-primary">Update Profile</button>
                     </form>
                 </div>
             </div>

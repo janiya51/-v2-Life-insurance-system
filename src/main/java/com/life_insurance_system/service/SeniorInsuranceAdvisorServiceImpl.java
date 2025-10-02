@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class SeniorInsuranceAdvisorServiceImpl implements SeniorInsuranceAdvisorService {
@@ -51,5 +50,19 @@ public class SeniorInsuranceAdvisorServiceImpl implements SeniorInsuranceAdvisor
             }
         }
         return riskAssessmentRepository.save(riskAssessment);
+    }
+
+    @Override
+    @Transactional
+    public void deleteRiskAssessment(int assessmentId) {
+        RiskAssessment assessment = riskAssessmentRepository.findById(assessmentId)
+                .orElseThrow(() -> new RuntimeException("Assessment not found with id: " + assessmentId));
+
+        // Business rule: Cannot delete finalized assessments.
+        if (assessment.getStatus() == RiskAssessment.Status.APPROVED || assessment.getStatus() == RiskAssessment.Status.REJECTED) {
+            throw new IllegalStateException("Cannot delete an assessment that has been finalized.");
+        }
+
+        riskAssessmentRepository.deleteById(assessmentId);
     }
 }

@@ -14,8 +14,6 @@ public interface ItSystemAnalystService {
 
     /**
      * Deletes logs older than a specified retention period (e.g., 1 year).
-     * This is a placeholder for a more complex implementation that would typically
-     * involve a scheduled task. For this project, it will be a manual trigger.
      *
      * @return The number of logs deleted.
      */

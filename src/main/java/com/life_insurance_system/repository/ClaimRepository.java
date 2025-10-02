@@ -8,5 +8,6 @@ import java.util.List;
 
 @Repository
 public interface ClaimRepository extends JpaRepository<Claim, Integer> {
+
     List<Claim> findByCustomer_CustomerId(int customerId);
 }

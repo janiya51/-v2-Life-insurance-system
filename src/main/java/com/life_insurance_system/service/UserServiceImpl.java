@@ -41,6 +41,7 @@ public class UserServiceImpl implements UserService {
         newUser.setPhone(registrationDto.getPhone());
         newUser.setAddress(registrationDto.getAddress());
         newUser.setRole(User.Role.CUSTOMER); // Default role for public registration
+        newUser.setActive(true);
 
         // Save the new user
         User savedUser = userRepository.save(newUser);
@@ -48,7 +49,7 @@ public class UserServiceImpl implements UserService {
         // Create and save the corresponding Customer entity
         Customer newCustomer = new Customer();
         newCustomer.setUser(savedUser);
-        // Other customer-specific fields like dateOfBirth can be set here if collected
+        // Other customer-specific fields can be set here if collected
         customerRepository.save(newCustomer);
 
         return savedUser;

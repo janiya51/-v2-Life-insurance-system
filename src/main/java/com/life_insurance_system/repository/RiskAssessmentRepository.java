@@ -8,5 +8,6 @@ import java.util.Optional;
 
 @Repository
 public interface RiskAssessmentRepository extends JpaRepository<RiskAssessment, Integer> {
+
     Optional<RiskAssessment> findByPolicy_PolicyId(int policyId);
 }
